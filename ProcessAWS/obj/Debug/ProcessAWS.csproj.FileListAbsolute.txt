@@ -1,0 +1,13 @@
+c:\users\phuong\documents\visual studio 2015\Projects\ProcessAWS\ProcessAWS\bin\Debug\ProcessAWS.exe.config
+c:\users\phuong\documents\visual studio 2015\Projects\ProcessAWS\ProcessAWS\bin\Debug\ProcessAWS.exe
+c:\users\phuong\documents\visual studio 2015\Projects\ProcessAWS\ProcessAWS\bin\Debug\ProcessAWS.pdb
+c:\users\phuong\documents\visual studio 2015\Projects\ProcessAWS\ProcessAWS\obj\Debug\ProcessAWS.csprojResolveAssemblyReference.cache
+c:\users\phuong\documents\visual studio 2015\Projects\ProcessAWS\ProcessAWS\obj\Debug\ProcessAWS.ProcessTP1.resources
+c:\users\phuong\documents\visual studio 2015\Projects\ProcessAWS\ProcessAWS\obj\Debug\ProcessAWS.Properties.Resources.resources
+c:\users\phuong\documents\visual studio 2015\Projects\ProcessAWS\ProcessAWS\obj\Debug\ProcessAWS.csproj.GenerateResource.Cache
+c:\users\phuong\documents\visual studio 2015\Projects\ProcessAWS\ProcessAWS\obj\Debug\ProcessAWS.exe
+c:\users\phuong\documents\visual studio 2015\Projects\ProcessAWS\ProcessAWS\obj\Debug\ProcessAWS.pdb
+C:\Users\phuong\Documents\Visual Studio 2015\Projects\ProcessAWS\ProcessAWS\bin\Debug\log4net.dll
+C:\Users\phuong\Documents\Visual Studio 2015\Projects\ProcessAWS\ProcessAWS\bin\Debug\log4net.xml
+C:\Users\phuong\Documents\Visual Studio 2015\Projects\ProcessAWS\ProcessAWS\bin\Debug\Newtonsoft.Json.dll
+C:\Users\phuong\Documents\Visual Studio 2015\Projects\ProcessAWS\ProcessAWS\bin\Debug\Newtonsoft.Json.xml

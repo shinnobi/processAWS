@@ -1,0 +1,30 @@
+﻿#code flow
+
+#PROGRAM LOAD
+--> PROCESS ERROR WATCHER OR MISSING FILE (3hour):
+	1. -> Get missing file (error watcher time or missing program)
+	2. Enqueue to Queue
+	
+
+<-->RUN WATCHER                   
+	1. Event: 
+	   1. --> Process error watcher (begin_error_time) (if flag true)
+	   2. -->Onchange() : Enqueue to Queue
+	   3. Check fileName format 
+	3. Error: get 1st begin_error_time 
+
+
+<--> PROCESS QUEUE
+	while(true)
+	 1. -> tryDequeue if lock Enqueue to Queue, error sleep 1s
+	 2. -> ProcessOne(fileName)
+	   1. -> ReadFile split to Object 
+				1. if error no process this file
+		 1. ->Write to JSON (object, jsonFile) 
+		     1. Check File Exit
+			 2. Check Object exit
+			 3. Wirite to JSON
+				1. if error  Enqueue to Queue
+	 
+
+	   !!! need to care loopforever
