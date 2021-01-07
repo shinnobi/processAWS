@@ -26,6 +26,7 @@ namespace ProcessAWS
         ConcurrentQueue<string> Queue = new ConcurrentQueue<string>();
         private bool isError = false;
         private DateTime beginError = new DateTime();
+        int projectID = 3;
 
         public ProcessTP1()
         {
@@ -145,7 +146,7 @@ namespace ProcessAWS
         {
             //var lstFileInfos = new List<FileInfo>();
             DirectoryInfo dirInfo = new DirectoryInfo(folder);
-            FileInfo[] lstFiles = dirInfo.EnumerateFiles("*.txt", SearchOption.AllDirectories)
+            FileInfo[] lstFiles = dirInfo.EnumerateFiles("*.json", SearchOption.AllDirectories)
             .AsParallel()
             .Where(x => x.LastWriteTime >= beginError).ToArray();
             return lstFiles;
@@ -223,7 +224,7 @@ namespace ProcessAWS
 
 
 
-                var rain10minJsonFile = JsonFolder + "/" + 7 + "_Rain10m_" + datetimeEnd.ToString("yyyyMMdd") + ".json";
+                var rain10minJsonFile = JsonFolder + "/" + projectID + "_Rain10m_" + datetimeEnd.ToString("yyyyMMddHH") + ".json";
 
 
                 Write2Rain10m = new Thread(() =>
@@ -233,8 +234,8 @@ namespace ProcessAWS
                     for (int i = 1; i <= Obs / 10; i++)
                     {
                         if (checkIfNull(path, data[i + 7])) { return; }
-                        value = float.Parse(data[i + 7]);
-                        var obj10m = createObj(StationNo, 7, datetimeBegin.AddMinutes(10 * i), value);
+                        value = float.Parse(data[i + 7])/10;
+                        var obj10m = createObj(StationNo, projectID, datetimeBegin.AddMinutes(10 * i), value);
                        
                         if(!checkObjectExits(lstRain10m, obj10m)) {
                             lstRain10m.Add(obj10m);
@@ -249,11 +250,11 @@ namespace ProcessAWS
                 Write2Rain10m.Start();
                 Write2Rain10m.Join();
 
-                var rain24hJsonFile = JsonFolder + "/" + 7 + "_Rain24h_" + datetimeEnd.ToString("yyyyMMdd") + ".json";
-                var obj24h = createObj(StationNo, 7, datetimeEnd, rain24h);
+                var rain24hJsonFile = JsonFolder + "/" + projectID + "_Rain24h_" + datetimeEnd.ToString("yyyyMMddHH") + ".json";
+                var obj24h = createObj(StationNo, projectID, datetimeEnd, rain24h);
                 
-                var rain19hJsonFile = JsonFolder + "/" + 7 + "_Rain19h_" + datetimeEnd.ToString("yyyyMMdd") + ".json";
-                var obj19h = createObj(StationNo, 7, datetimeEnd, rain19h);
+                var rain19hJsonFile = JsonFolder + "/" + projectID + "_Rain19h_" + datetimeEnd.ToString("yyyyMMddHH") + ".json";
+                var obj19h = createObj(StationNo, projectID, datetimeEnd, rain19h);
 
 
                 Write2Rain24h = new Thread(() => {
@@ -280,8 +281,8 @@ namespace ProcessAWS
 
                 if (Obs != 10)
                 {
-                    var ObsJsonFile = JsonFolder + "/" + 7 + "_Rain" + Obs.ToString() + "m_" + datetimeEnd.ToString("yyyyMMdd") + ".json";
-                    var objObs = createObj(StationNo, 7, datetimeEnd, rainObs);
+                    var ObsJsonFile = JsonFolder + "/" + projectID + "_Rain" + Obs.ToString() + "m_" + datetimeEnd.ToString("yyyyMMddHH") + ".json";
+                    var objObs = createObj(StationNo, projectID, datetimeEnd, rainObs);
 
                     Write2RObs = new Thread(() =>
                     {
