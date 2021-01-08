@@ -36,7 +36,7 @@ namespace ProcessAWS
         private void ProcessTP1_Load(object sender, EventArgs e)
         {
             //luc khoi dong thi lay lai file cu trong vong 2 tieng
-            Thread t = new Thread(() => ProcessErrorWatcher(DateTime.Now.AddHours(-1))) { IsBackground = true };
+            Thread t = new Thread(() => ProcessErrorWatcher(DateTime.Now.AddHours(-3))) { IsBackground = true };
             t.Start();
 
             // start watcher
@@ -229,21 +229,33 @@ namespace ProcessAWS
 
                 Write2Rain10m = new Thread(() =>
                 {
+                try {
+                        var lstRain10m = Deserialize(rain10minJsonFile);
+                        for (int i = 1; i <= Obs / 10; i++)
+                        {
+                            if (checkIfNull(path, data[i + 7])) { return; }
+                            value = float.Parse(data[i + 7]) / 10;
+                            var obj10m = createObj(StationNo, projectID, datetimeBegin.AddMinutes(10 * i), value);
 
-                    var lstRain10m = Deserialize(rain10minJsonFile);
-                    for (int i = 1; i <= Obs / 10; i++)
-                    {
-                        if (checkIfNull(path, data[i + 7])) { return; }
-                        value = float.Parse(data[i + 7])/10;
-                        var obj10m = createObj(StationNo, projectID, datetimeBegin.AddMinutes(10 * i), value);
-                       
-                        if(!checkObjectExits(lstRain10m, obj10m)) {
-                            lstRain10m.Add(obj10m);
-                        }                      
-                      
+                            if (!checkObjectExits(lstRain10m, obj10m))
+                            {
+                                lstRain10m.Add(obj10m);
+                            }
 
+
+                        }
+                        Wirte2Json(rain10minJsonFile, lstRain10m, path);
                     }
-                   Wirte2Json(rain10minJsonFile, lstRain10m, path);
+                 catch (Exception ex)
+                    {
+                        Invoke((MethodInvoker)delegate
+                        {
+                            ShowLog(String.Format("Không đọc được file: " + path + "\n"));
+                            log.Debug("file " + path + " không đúng định dạng " + ex.Message);
+                        });
+                        return;
+                    }
+
                 })
                 { IsBackground = true };
 
@@ -281,7 +293,10 @@ namespace ProcessAWS
 
                 if (Obs != 10)
                 {
-                    var ObsJsonFile = JsonFolder + "/" + projectID + "_Rain" + Obs.ToString() + "m_" + datetimeEnd.ToString("yyyyMMddHH") + ".json";
+                    var ObsJsonFile = JsonFolder + "/" + projectID + "_Rain1h_" + datetimeEnd.ToString("yyyyMMddHH") + ".json";
+                    if(Obs !=60) {
+                        ObsJsonFile =JsonFolder + "/" + projectID + "_Rain" + Obs.ToString() + "m_" + datetimeEnd.ToString("yyyyMMddHH") + ".json";
+                    }
                     var objObs = createObj(StationNo, projectID, datetimeEnd, rainObs);
 
                     Write2RObs = new Thread(() =>
